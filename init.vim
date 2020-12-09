@@ -37,7 +37,7 @@ colorscheme onehalfdark
 
 let mapleader = ','
 let loaded_netrwPlugin = 1
-let g:python3_host_prog = expand('/Users/alexdiaz/.pyenv/shims/python')
+let g:python3_host_prog = expand('/Users/alexdiaz/.pyenv/versions/3.8.6/bin/python')
 let g:vimtex_view_method = 'skim'
 let g:sneak#label = 1
 let g:UltiSnipsExpandTrigger = "<nop>"
