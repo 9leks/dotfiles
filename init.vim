@@ -12,11 +12,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lervag/vimtex'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'SirVer/ultisnips'
+Plug 'romainl/vim-cool'
+Plug 'bling/vim-bufferline'
 call plug#end()
 
 set syntax
-set number
+set number relativenumber
 set expandtab
+set inccommand=nosplit
 set smartcase
 set cursorline
 set title
@@ -51,6 +54,7 @@ let g:coc_global_extensions = [
   \ 'coc-pyright',
   \ 'coc-git',
   \ 'coc-vimtex',
+  \ 'coc-highlight',
   \ 'coc-snippets'
 \]
 
@@ -63,12 +67,7 @@ highlight SneakLabel none
 highlight SneakLabelMask none
 highlight SneakScope none
 
-nnoremap <Esc> :noh<CR><Esc>
-nnoremap <Esc>^[ <Esc>^[
-tnoremap <Esc> <C-\><C-N>i
-nnoremap <C-E> :CHADopen<CR>
-nnoremap <C-A> :bnext<CR>
-nnoremap <C-S-A> :bprevious<CR>
+noremap <C-E> :CHADopen<CR>
 
 source ~/.config/nvim/coc.vim
 source ~/.config/nvim/statusline.vim

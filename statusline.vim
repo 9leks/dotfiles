@@ -35,13 +35,14 @@ function! StatusLine(mode)
     let statusline .= " VISUAL "
   endif
   if &mod == 1
-	let statusline .= " %.20f + "
+	let statusline .= expand('%:t') . " + "
   else
-	let statusline .= " %.20f "
+	let statusline .= expand('%:t') . " "
   endif
   if FugitiveHead() != ''
     let statusline .= " \uE0A0 %{FugitiveHead()} "
   endif
+  let statusline .= len(getbufinfo({'buflisted':1})) == 1 ? "" : " | %{bufferline#refresh_status()} " . bufferline#get_status_string()
   let statusline .= "%="
   let statusline .= "%{CheckFT(&filetype)} "
   let statusline .= " %-8.(line %l, column %c%) "

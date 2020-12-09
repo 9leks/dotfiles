@@ -122,3 +122,5 @@ command! -nargs=0 Format :call CocAction('format')
 vmap <leader>f :Format<CR>
 nmap <leader>f :Format<CR>
 
+autocmd CursorHold * silent call CocActionAsync('highlight')
+nnoremap <leader>h :call CocAction('pickColor')<CR>
