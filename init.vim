@@ -15,6 +15,7 @@ Plug 'SirVer/ultisnips'
 Plug 'romainl/vim-cool'
 Plug 'bling/vim-bufferline'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'norcalli/nvim-colorizer.lua'
 call plug#end()
 
 set syntax
@@ -39,9 +40,11 @@ if has('nvim')
 endif
 
 colorscheme onehalfdark
+lua require'colorizer'.setup()
 
 let mapleader = ','
 let loaded_netrwPlugin = 1
+let g:Hexokinase_highlighters = [ 'virtual' ]
 let g:python3_host_prog = expand('/Users/alexdiaz/.pyenv/versions/3.8.6/bin/python')
 let g:vimtex_view_method = 'skim'
 let g:sneak#label = 1
@@ -56,7 +59,6 @@ let g:coc_global_extensions = [
   \ 'coc-pyright',
   \ 'coc-git',
   \ 'coc-vimtex',
-  \ 'coc-highlight',
   \ 'coc-snippets'
 \]
 
