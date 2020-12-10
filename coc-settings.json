@@ -3,6 +3,7 @@
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.arrowParens": "avoid",
+  "diagnostic.checkCurrentLine": true,
   "eslint.filetypes": [
     "javascript",
     "javascriptreact",

@@ -42,7 +42,6 @@ function! StatusLine(mode)
   if FugitiveHead() != ''
     let statusline .= " \uE0A0 %{FugitiveHead()} "
   endif
-  let statusline .= len(getbufinfo({'buflisted':1})) == 1 ? "" : " | %{bufferline#refresh_status()} " . bufferline#get_status_string()
   let statusline .= "%="
   let statusline .= "%{CheckFT(&filetype)} "
   let statusline .= " %-8.(line %l, column %c%) "
@@ -53,4 +52,3 @@ highlight StatusLine guibg=#292929 guifg=white
 
 set laststatus=2
 set statusline=%!StatusLine(mode())
-let g:bufferline_echo = 0
