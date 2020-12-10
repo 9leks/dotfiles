@@ -118,7 +118,6 @@ let g:coc_snippet_prev = '<c-k>'
 imap <C-Space> <Plug>(coc-snippets-expand)
 imap <C-j> <Plug>(coc-snippets-expand-jump)f
 
-command! -nargs=0 Format :call CocAction('format')
 vmap <leader>f :Format<CR>
 nmap <leader>f :Format<CR>
 

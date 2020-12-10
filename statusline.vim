@@ -53,4 +53,4 @@ highlight StatusLine guibg=#292929 guifg=white
 
 set laststatus=2
 set statusline=%!StatusLine(mode())
-
+let g:bufferline_echo = 0
