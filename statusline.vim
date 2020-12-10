@@ -43,7 +43,8 @@ function! StatusLine(mode)
     let statusline .= " \uE0A0 %{FugitiveHead()} "
   endif
   let statusline .= "%="
-  let statusline .= "%{CheckFT(&filetype)} "
+  let statusline .= "%{nvim_treesitter#statusline()} "
+  let statusline .= " %{CheckFT(&filetype)} "
   let statusline .= " %-8.(line %l, column %c%) "
   return statusline
 endfunction
