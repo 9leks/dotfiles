@@ -9,6 +9,19 @@ function! CheckFT(filetype)
   endif
 endfunction
 
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, info['error'] . ' ● ')
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, info['warning'] . ' ○ ' )
+  endif
+  return join(msgs, ' ')
+endfunction
+
 function! StatusLine(mode)
   let left=""
   let right=""
@@ -43,7 +56,9 @@ function! StatusLine(mode)
     let statusline .= " \uE0A0 %{FugitiveHead()} "
   endif
   let statusline .= "%="
-  let statusline .= "%{nvim_treesitter#statusline()} "
+
+  let statusline .= " %{StatusDiagnostic()} "
+  let statusline .= " %{nvim_treesitter#statusline()} "
   let statusline .= " %{CheckFT(&filetype)} "
   let statusline .= " %-8.(line %l, column %c%) "
   return statusline
