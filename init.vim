@@ -5,17 +5,19 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'justinmk/vim-sneak'
 Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lervag/vimtex'
+Plug 'luochen1990/rainbow'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
-Plug 'SirVer/ultisnips'
 Plug 'romainl/vim-cool'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'norcalli/nvim-colorizer.lua'
+Plug 'brennier/quicktex'
 Plug 'ap/vim-buftabline'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 call plug#end()
@@ -35,22 +37,20 @@ set formatoptions+=t
 set shiftwidth=2
 set fillchars+=vert:\
 set termguicolors
+set formatoptions=aw2tq
 set undofile
-
-if has('nvim')
-  set fcs=eob:\ 
-endif
+set fcs=eob:\ 
 
 colorscheme onehalfdark
 lua require'colorizer'.setup()
 
 let mapleader = ','
+let g:rainbow_active = 1
 let loaded_netrwPlugin = 1
 let g:python3_host_prog = expand('/Users/alexdiaz/.pyenv/versions/3.8.6/bin/python')
 let g:vimtex_view_method = 'skim'
 let g:vimtex_quickfix_mode=0
 let g:sneak#label = 1
-let g:UltiSnipsExpandTrigger = '<nop>'
 let g:coc_global_extensions = [
   \ 'coc-tsserver', 
   \ 'coc-vimlsp', 
@@ -58,18 +58,13 @@ let g:coc_global_extensions = [
   \ 'coc-json', 
   \ 'coc-eslint',
   \ 'coc-pyright',
-  \ 'coc-vimtex',
-  \ 'coc-snippets'
+  \ 'coc-vimtex'
 \]
 
 highlight Normal gui=none
 highlight NonText guibg=none
 highlight SignColumn guibg=NONE
 highlight Normal guibg=NONE
-highlight Sneak none
-highlight SneakLabel none
-highlight SneakLabelMask none
-highlight SneakScope none
 
 function! s:find_files()
     let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]

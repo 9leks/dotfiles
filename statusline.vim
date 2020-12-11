@@ -58,7 +58,6 @@ function! StatusLine(mode)
   let statusline .= "%="
 
   let statusline .= " %{StatusDiagnostic()} "
-  let statusline .= " %{nvim_treesitter#statusline()} "
   let statusline .= " %{CheckFT(&filetype)} "
   let statusline .= " %-8.(line %l, column %c%) "
   return statusline
