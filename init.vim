@@ -20,12 +20,17 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'brennier/quicktex'
 Plug 'ap/vim-buftabline'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+Plug 'valloric/MatchTagAlways'
+Plug 'honza/vim-snippets'
+Plug 'AndrewRadev/tagalong.vim'
 call plug#end()
 
 set syntax
 set number relativenumber
 set expandtab
 set inccommand=nosplit
+set smartindent
+set autoindent
 set smartcase
 set cursorline
 set title
@@ -52,7 +57,9 @@ let g:vimtex_view_method = 'skim'
 let g:vimtex_quickfix_mode=0
 let g:sneak#label = 1
 let g:coc_global_extensions = [
+  \ 'coc-snippets',
   \ 'coc-tsserver', 
+  \ 'coc-emmet',
   \ 'coc-vimlsp', 
   \ 'coc-prettier', 
   \ 'coc-json', 
@@ -60,6 +67,16 @@ let g:coc_global_extensions = [
   \ 'coc-pyright',
   \ 'coc-vimtex'
 \]
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'javascriptreact' : 1,
+    \ 'typescriptreact' : 1,
+    \ 'jinja' : 1,
+    \ 'liquid' : 1,
+    \ 'markdown' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+\}
 
 highlight Normal gui=none
 highlight NonText guibg=none
@@ -82,6 +99,11 @@ nnoremap <silent><C-p> :ProjectFiles<CR>
 nnoremap <silent><C-e> :CHADopen<CR>
 nnoremap <silent><C-a> :bprev<CR>
 nnoremap <silent><C-s> :bnext<CR>
+
+highlight BufTabLineCurrent none
+highlight BufTabLineActive guibg=#2e2e2e
+highlight BufTabLineHidden none
+highlight BufTabLineFill none
 
 augroup AutoCmds
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
