@@ -1,69 +1,54 @@
 set noshowmode
+set laststatus=2
 set noruler
 
-function! CheckFT(filetype)
-  if a:filetype == ''
-    return '-'
-  else
-    return tolower(a:filetype)
+function! Status()
+  if mode() == 'n'
+    return " NORMAL "
+  elseif mode() == 'i'
+    return " INSERT "
+  elseif mode() == 'R'
+    return " REPLACE "
+  elseif mode() ==# 'v'
+    return " VISUAL "
+  elseif mode() ==# 'V'
+    return " VISUAL "
+  elseif mode() ==# ''
+    return " VISUAL "
+  elseif mode() ==# 'c'
+    return " COMMAND "
+  elseif mode() ==# 't'
+    return " TERMINAL "
+  elseif mode() == 'v' || mode() == 'V' || mode() == '^V' || mode() == 's' || mode() == 'S' || mode() == '^S'
+    return " VISUAL "
   endif
 endfunction
 
-function! StatusDiagnostic() abort
+highlight StatusLine guibg=#282828 guifg=#dddddd
+highlight Warning guifg=#f8981c
+highlight Error guifg=#c41111
+
+set statusline=
+set statusline+=\ %{Status()}
+set statusline+=%{expand('%:t')}
+set statusline+=%{&mod==1?'\ +\ ':'\ '}
+
+set statusline+=%{FugitiveHead()!=''?'\ ':'h'}
+set statusline+=%{FugitiveHead()!=''?FugitiveHead():'h'}
+
+set statusline+=%=
+
+function! Diagnostics() abort
   let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, info['error'] . ' ● ')
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, info['warning'] . ' ○ ' )
-  endif
-  return join(msgs, ' ')
+  let errors = get(info, 'error', 0)
+  let warnings = get(info, 'warning', 0)
+  return {'errors': errors, 'warnings': warnings}
 endfunction
 
-function! StatusLine(mode)
-  let left=""
-  let right=""
+set statusline+=%#Error#%{Diagnostics().errors?Diagnostics().errors:''}
+set statusline+=%{Diagnostics().errors?'\ ●\ ':''}%*
+set statusline+=%#Warning#%{Diagnostics().warnings?Diagnostics().warnings:''}
+set statusline+=%{Diagnostics().warnings?'\ ●\ ':''}%*
 
-  let statusline=""
-  if a:mode == 'n'
-    let statusline .= " NORMAL "
-  elseif a:mode == 'i'
-    let statusline .= " INSERT "
-  elseif a:mode == 'R'
-    let statusline .= " REPLACE "
-  elseif a:mode ==# 'v'
-    let statusline .= " VISUAL "
-  elseif a:mode ==# 'V'
-    let statusline .= " VISUAL "
-  elseif a:mode ==# ''
-    let statusline .= " VISUAL "
-  elseif a:mode ==# 'c'
-    let statusline=""
-    let statusline .= " COMMAND "
-  elseif a:mode ==# 't'
-    let statusline .= " TERMINAL "
-  elseif a:mode == 'v' || a:mode == 'V' || a:mode == '^V' || a:mode == 's' || a:mode == 'S' || a:mode == '^S'
-    let statusline .= " VISUAL "
-  endif
-  if &mod == 1
-	let statusline .= expand('%:t') . " + "
-  else
-	let statusline .= expand('%:t') . " "
-  endif
-  if FugitiveHead() != ''
-    let statusline .= " \uE0A0 %{FugitiveHead()} "
-  endif
-  let statusline .= "%="
-
-  let statusline .= " %{StatusDiagnostic()} "
-  let statusline .= " %{CheckFT(&filetype)} "
-  let statusline .= " %-8.(line %l, column %c%) "
-  return statusline
-endfunction
-
-highlight StatusLine guibg=#292929 guifg=white
-
-set laststatus=2
-set statusline=%!StatusLine(mode())
+set statusline+=%{tolower(&filetype)}
+set statusline+=\ %l:%c\ 

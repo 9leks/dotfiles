@@ -17,14 +17,14 @@ function! s:show_documentation()
   endif
 endfunction
 
-inoremap <silent><expr> <TAB>
+inoremap <silent><expr> <C-j>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-Space> coc#refresh()
-inoremap <silent><expr> <cr> pumvisible() 
+inoremap <silent><expr> <Tab> pumvisible()
       \? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 

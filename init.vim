@@ -26,12 +26,11 @@ Plug 'Yggdroot/indentLine'
 
 " LSP
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sheerun/vim-polyglot'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'jmsv/vscode-javascript-standard'
 
 " Syntax
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -82,7 +81,6 @@ let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ 'coc-stylelint',
       \ 'coc-tsserver',
-      \ 'coc-css',
       \ 'coc-emmet',
       \ 'coc-vimlsp', 
       \ 'coc-prettier', 
@@ -114,12 +112,18 @@ nnoremap <silent><Leader>l :Lines<CR>
 augroup Setup
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
   autocmd User VimtexEventInitPost VimtexCompile
-  autocmd FileType scss setl iskeyword+=@-@
 augroup END
 
 " Lua
 lua <<EOF
 require'colorizer'.setup()
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained",
+  highlight = {
+    enable = true
+  },
+}
 EOF
 
 " Imports
