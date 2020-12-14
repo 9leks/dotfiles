@@ -2,9 +2,6 @@
   "suggest.noselect": false,
   "diagnostic.messageTarget": "echo",
   "diagnostic.virtualText": true,
-  "css.validate": false,
-  "less.validate": false,
-  "scss.validate": false,
-  "wxss.validate": false,
-  "diagnostic-languageserver.filetypes": { "scss": "stylelint" }
+  "diagnostic-languageserver.filetypes": { "scss": "stylelint" },
+  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
 }

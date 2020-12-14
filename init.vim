@@ -33,6 +33,7 @@ Plug 'jmsv/vscode-javascript-standard'
 " Syntax
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'sheerun/vim-polyglot'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
@@ -57,6 +58,7 @@ set undofile
 set fcs=eob:\ 
 
 let g:tokyonight_style = 'storm'
+let g:tokyonight_enable_italic = 1
 
 colorscheme tokyonight
 hi Normal guibg=none
@@ -122,6 +124,7 @@ map <silent><Leader>e <Plug>CamelCaseMotion_e
 " Buffer management
 nnoremap <silent>gb :bnext<CR>
 nnoremap <silent>gB :bprev<CR>
+tnoremap <Esc> <C-\><C-n>
 
 " Tools
 nnoremap <silent><C-P> :exec FindFiles()<CR>
