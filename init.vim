@@ -23,6 +23,8 @@ Plug 'romainl/vim-cool'
 Plug 'valloric/MatchTagAlways'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'Yggdroot/indentLine'
+Plug 'bkad/CamelCaseMotion'
+Plug 'dstein64/nvim-scrollview'
 
 " LSP
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -30,6 +32,7 @@ Plug 'jmsv/vscode-javascript-standard'
 
 " Syntax
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'ghifarit53/tokyonight-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
@@ -53,7 +56,17 @@ set formatoptions=aw2tq
 set undofile
 set fcs=eob:\ 
 
-colorscheme onehalfdark
+let g:tokyonight_style = 'storm'
+
+colorscheme tokyonight
+hi Normal guibg=none
+hi EndOfBuffer guibg=none
+hi SignColumn guibg=none
+hi GitGutterAdd guibg=none
+hi GitGutterChange guibg=none
+hi GitGutterText guibg=none
+hi GitGutterDelete guibg=none
+hi ScrollView guibg=#777777
 
 " Neovim 
 let mapleader = ','
@@ -63,6 +76,7 @@ let g:rainbow_active = 1
 
 " Convenience
 let g:indentLine_char_list = ['┊']
+let g:scrollview_winblend = 55
 let g:sneak#label = 1
 let g:mta_filetypes = {
       \ 'html' : 1,
@@ -100,13 +114,18 @@ function! FindFiles()
   endif
 endfunction
 
+" Movement
+map <silent><Leader>w <Plug>CamelCaseMotion_w
+map <silent><Leader>b <Plug>CamelCaseMotion_b
+map <silent><Leader>e <Plug>CamelCaseMotion_e
+
 " Buffer management
 nnoremap <silent>gb :bnext<CR>
 nnoremap <silent>gB :bprev<CR>
 
 " Tools
 nnoremap <silent><C-P> :exec FindFiles()<CR>
-nnoremap <silent><Leader>b :FZFMru<CR>
+nnoremap <silent><Leader>m :FZFMru<CR>
 nnoremap <silent><Leader>l :Lines<CR>
 
 augroup Setup

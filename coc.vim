@@ -1,6 +1,6 @@
 set cmdheight=2
 set updatetime=300
-set signcolumn=number
+set signcolumn=yes
 
 function! s:check_back_space() abort
   let col = col('.') - 1
