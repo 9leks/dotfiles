@@ -1,125 +1,75 @@
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-"         \ pumvisible() ? "\<C-n>" :
-"         \ <SID>check_back_space() ? "\<TAB>" :
-"         \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+set cmdheight=2
+set updatetime=300
+set signcolumn=number
 
 function! s:check_back_space() abort
-      let col = col('.') - 1
-         return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Use <c-space> to trigger completion.
-" inoremap <silent><expr> <Tab> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if exists('*complete_info')
-    inoremap <expr> <tab> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-        imap <expr> <tab> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-else
-        call CocAction('doHover')
-    endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <C-Space> coc#refresh()
+inoremap <silent><expr> <cr> pumvisible() 
+      \? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <Leader>rn <Plug>(coc-rename)
 
-augroup mygroup
-autocmd!
-" Setup formatexpr specified filetype(s).
-autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-" Update signature help on jump placeholder.
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
+xnoremap if <Plug>(coc-funcobj-i)
+onoremap if <Plug>(coc-funcobj-i)
+xnoremap af <Plug>(coc-funcobj-a)
+onoremap af <Plug>(coc-funcobj-a)
+xnoremap ic <Plug>(coc-classobj-i)
+onoremap ic <Plug>(coc-classobj-i)
+xnoremap ac <Plug>(coc-classobj-a)
+onoremap ac <Plug>(coc-classobj-a)
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 
-" Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Introduce function text object
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <TAB> for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-
-" Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Organize :call CocAction('runCommand', 'editor.action.organizeImport')
+nnoremap <silent><Leader>f :Format<CR>
+nnoremap <silent><Leader>o :Organize<CR>
 
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+nnoremap <silent><nowait> <Space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <Space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <Space>c  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <Space>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <Space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <Space>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <Space>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <Space>p  :<C-u>CocListResume<CR>
 
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Mappings using CoCList:
-" Show all diagnostics.
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-" coc-snippets
-let g:coc_snippet_next = '<c-j>'
-let g:coc_snippet_prev = '<c-k>'
-imap <C-Space> <Plug>(coc-snippets-expand)
-imap <C-j> <Plug>(coc-snippets-expand-jump)f
-
-vmap <leader>f :Format<CR>
-nmap <leader>f :Format<CR>
-
-autocmd CursorHold * silent call CocActionAsync('highlight')
-nnoremap <leader>h :call CocAction('pickColor')<CR>
+augroup CocSetup
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  autocmd FileType css,scss nnoremap <buffer> <silent><Leader>f :Format<CR> <Bar> :!npx stylelint --fix %:p<CR>
+augroup end

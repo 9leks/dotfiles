@@ -1,36 +1,45 @@
-if !exists('g:vscode')
-
 call plug#begin()
+" Buffer handling
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
+Plug 'ap/vim-buftabline'
+
+" Tools
+Plug 'justinmk/vim-sneak'
+Plug 'lervag/vimtex'
+Plug 'brennier/quicktex'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'justinmk/vim-sneak'
+Plug 'airblade/vim-rooter'
+
+" Convenience
 Plug 'jiangmiao/auto-pairs'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'lervag/vimtex'
 Plug 'luochen1990/rainbow'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
-Plug 'romainl/vim-cool'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'brennier/quicktex'
-Plug 'ap/vim-buftabline'
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+Plug 'romainl/vim-cool'
 Plug 'valloric/MatchTagAlways'
-Plug 'honza/vim-snippets'
 Plug 'AndrewRadev/tagalong.vim'
+Plug 'Yggdroot/indentLine'
+
+" LSP
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sheerun/vim-polyglot'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
+" Syntax
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+
 call plug#end()
 
 set syntax
 set number relativenumber
 set expandtab
-set inccommand=nosplit
-set smartindent
-set autoindent
+set inccommand=split
+set cindent
 set smartcase
 set cursorline
 set title
@@ -38,7 +47,6 @@ set hidden
 set splitbelow
 set splitright
 set textwidth=120
-set formatoptions+=t
 set shiftwidth=2
 set fillchars+=vert:\
 set termguicolors
@@ -47,80 +55,73 @@ set undofile
 set fcs=eob:\ 
 
 colorscheme onehalfdark
-lua require'colorizer'.setup()
 
+" Neovim 
 let mapleader = ','
+
+" Syntax
 let g:rainbow_active = 1
-let loaded_netrwPlugin = 1
+
+" Convenience
+let g:indentLine_char_list = ['┊']
+let g:sneak#label = 1
+let g:mta_filetypes = {
+      \ 'html' : 1,
+      \ 'markdown' : 1,
+      \ 'javascriptreact' : 1,
+      \ 'typescriptreact' : 1
+      \}
+
+" Tools
 let g:python3_host_prog = expand('/Users/alexdiaz/.pyenv/versions/3.8.6/bin/python')
 let g:vimtex_view_method = 'skim'
-let g:vimtex_quickfix_mode=0
-let g:sneak#label = 1
+let g:rooter_silent_chdir = 1
+
+" LSP
 let g:coc_global_extensions = [
-  \ 'coc-snippets',
-  \ 'coc-tsserver', 
-  \ 'coc-emmet',
-  \ 'coc-vimlsp', 
-  \ 'coc-prettier', 
-  \ 'coc-json', 
-  \ 'coc-eslint',
-  \ 'coc-pyright',
-  \ 'coc-vimtex'
-\]
-let g:mta_filetypes = {
-    \ 'html' : 1,
-    \ 'javascriptreact' : 1,
-    \ 'typescriptreact' : 1,
-    \ 'jinja' : 1,
-    \ 'liquid' : 1,
-    \ 'markdown' : 1,
-    \ 'xhtml' : 1,
-    \ 'xml' : 1,
-\}
+      \ 'coc-snippets',
+      \ 'coc-stylelint',
+      \ 'coc-tsserver',
+      \ 'coc-css',
+      \ 'coc-emmet',
+      \ 'coc-vimlsp', 
+      \ 'coc-prettier', 
+      \ 'coc-json', 
+      \ 'coc-eslint',
+      \ 'coc-pyright',
+      \ 'coc-vimtex'
+      \]
 
-highlight Normal gui=none
-highlight NonText guibg=none
-highlight SignColumn guibg=NONE
-highlight Normal guibg=NONE
-
-function! s:find_files()
-    let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-    if git_dir != ''
-        execute 'GFiles' git_dir
-    else
-        execute 'Files'
-    endif
+" Functions
+function! FindFiles()
+  let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+  if git_dir != ''
+    execute 'GFiles' git_dir
+  else
+    execute 'Files'
+  endif
 endfunction
-command! ProjectFiles execute s:find_files()
 
+" Buffer management
+nnoremap <silent>gb :bnext<CR>
+nnoremap <silent>gB :bprev<CR>
+
+" Tools
+nnoremap <silent><C-P> :exec FindFiles()<CR>
 nnoremap <silent><Leader>b :FZFMru<CR>
 nnoremap <silent><Leader>l :Lines<CR>
-nnoremap <silent><C-p> :ProjectFiles<CR>
-nnoremap <silent><C-e> :CHADopen<CR>
-nnoremap <silent><C-a> :bprev<CR>
-nnoremap <silent><C-s> :bnext<CR>
 
-highlight BufTabLineCurrent none
-highlight BufTabLineActive guibg=#2e2e2e
-highlight BufTabLineHidden none
-highlight BufTabLineFill none
-
-augroup AutoCmds
+augroup Setup
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
   autocmd User VimtexEventInitPost VimtexCompile
-  autocmd BufEnter * silent! lcd %:p:h
+  autocmd FileType scss setl iskeyword+=@-@
 augroup END
 
-source ~/.config/nvim/coc.vim
-source ~/.config/nvim/statusline.vim
-
+" Lua
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", 
-  highlight = {
-    enable = true,
-  },
-}
+require'colorizer'.setup()
 EOF
 
-endif
+" Imports
+source ~/.config/nvim/statusline.vim
+source ~/.config/nvim/coc.vim

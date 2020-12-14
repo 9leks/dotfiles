@@ -1,19 +1,10 @@
 {
   "suggest.noselect": false,
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "prettier.arrowParens": "avoid",
-  "prettier.printWidth": 120,
-  "diagnostic.checkCurrentLine": true,
-  "eslint.filetypes": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "snippets.extends": {
-    "javascriptreact": ["javascript"],
-    "typescriptreact": ["javascript"],
-    "typescript": ["javascript"]
-  }
+  "diagnostic.messageTarget": "echo",
+  "diagnostic.virtualText": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "wxss.validate": false,
+  "diagnostic-languageserver.filetypes": { "scss": "stylelint" }
 }
