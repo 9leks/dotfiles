@@ -5,6 +5,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'ap/vim-buftabline'
 
+" Project management
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+
 " Tools
 Plug 'justinmk/vim-sneak'
 Plug 'lervag/vimtex'
@@ -14,6 +20,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-rooter'
+Plug 'aymericbeaumet/vim-symlink'
 
 " Convenience
 Plug 'jiangmiao/auto-pairs'
@@ -35,6 +42,10 @@ Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+" Misc
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'moll/vim-bbye'
 
 call plug#end()
 
@@ -92,6 +103,9 @@ let g:python3_host_prog = expand('/Users/alexdiaz/.pyenv/versions/3.8.6/bin/pyth
 let g:vimtex_view_method = 'skim'
 let g:rooter_silent_chdir = 1
 
+" Project management
+let g:fern#renderer = "nerdfont"
+
 " LSP
 let g:coc_global_extensions = [
       \ 'coc-snippets',
@@ -117,14 +131,17 @@ function! FindFiles()
 endfunction
 
 " Movement
-map <silent><Leader>w <Plug>CamelCaseMotion_w
-map <silent><Leader>b <Plug>CamelCaseMotion_b
-map <silent><Leader>e <Plug>CamelCaseMotion_e
+nnoremap <silent><Leader>w <Plug>CamelCaseMotion_w
+nnoremap <silent><Leader>b <Plug>CamelCaseMotion_b
+nnoremap <silent><Leader>e <Plug>CamelCaseMotion_e
 
 " Buffer management
 nnoremap <silent>gb :bnext<CR>
 nnoremap <silent>gB :bprev<CR>
 tnoremap <Esc> <C-\><C-n>
+
+" Project management
+nnoremap <silent><Leader>e :Fern . -drawer -reveal=% -toggle <CR>
 
 " Tools
 nnoremap <silent><C-P> :exec FindFiles()<CR>
@@ -151,3 +168,4 @@ EOF
 " Imports
 source ~/.config/nvim/statusline.vim
 source ~/.config/nvim/coc.vim
+
