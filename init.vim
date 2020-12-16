@@ -23,7 +23,6 @@ Plug 'airblade/vim-rooter'
 Plug 'aymericbeaumet/vim-symlink'
 
 " Convenience
-Plug 'jiangmiao/auto-pairs'
 Plug 'luochen1990/rainbow'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'romainl/vim-cool'
@@ -86,6 +85,7 @@ let mapleader = ','
 
 " Syntax
 let g:rainbow_active = 1
+let g:indentLine_conceallevel = 0
 
 " Convenience
 let g:indentLine_char_list = ['┊']
@@ -109,6 +109,7 @@ let g:fern#renderer = "nerdfont"
 " LSP
 let g:coc_global_extensions = [
       \ 'coc-snippets',
+      \ 'coc-pairs',
       \ 'coc-stylelint',
       \ 'coc-tsserver',
       \ 'coc-emmet',
