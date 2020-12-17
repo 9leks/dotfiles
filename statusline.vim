@@ -33,8 +33,8 @@ set statusline+=\ %{Status()}
 set statusline+=%{expand('%:t')}
 set statusline+=%{&mod==1?'\ +\ ':'\ '}
 
-set statusline+=%{FugitiveHead()!=''?'\ ':'h'}
-set statusline+=%{FugitiveHead()!=''?FugitiveHead():'h'}
+set statusline+=%{FugitiveHead()!=''?'\ ':''}
+set statusline+=%{FugitiveHead()!=''?FugitiveHead():''}
 
 set statusline+=%=
 

@@ -3,5 +3,6 @@
   "diagnostic.messageTarget": "echo",
   "diagnostic.virtualText": true,
   "diagnostic-languageserver.filetypes": { "scss": "stylelint" },
-  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
+  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "explorer.icon.enableNerdfont": true
 }

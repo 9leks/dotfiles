@@ -5,20 +5,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'ap/vim-buftabline'
 
-" Project management
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-hijack.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-
 " Tools
 Plug 'justinmk/vim-sneak'
 Plug 'lervag/vimtex'
 Plug 'brennier/quicktex'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-rooter'
 Plug 'aymericbeaumet/vim-symlink'
 
@@ -30,17 +24,15 @@ Plug 'valloric/MatchTagAlways'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'bkad/CamelCaseMotion'
-Plug 'dstein64/nvim-scrollview'
 
 " LSP
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jmsv/vscode-javascript-standard'
 
 " Syntax
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'ghifarit53/tokyonight-vim'
-Plug 'sheerun/vim-polyglot'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Misc
 Plug 'antoinemadec/FixCursorHold.nvim'
@@ -52,7 +44,6 @@ set syntax
 set number relativenumber
 set expandtab
 set inccommand=split
-set cindent
 set smartcase
 set cursorline
 set title
@@ -71,8 +62,8 @@ let g:tokyonight_style = 'storm'
 let g:tokyonight_enable_italic = 1
 
 colorscheme tokyonight
-hi Normal guibg=none
 hi EndOfBuffer guibg=none
+hi Normal guibg=none
 hi SignColumn guibg=none
 hi GitGutterAdd guibg=none
 hi GitGutterChange guibg=none
@@ -85,7 +76,6 @@ let mapleader = ','
 
 " Syntax
 let g:rainbow_active = 1
-let g:indentLine_conceallevel = 0
 
 " Convenience
 let g:indentLine_char_list = ['┊']
@@ -100,15 +90,14 @@ let g:mta_filetypes = {
 
 " Tools
 let g:python3_host_prog = expand('/Users/alexdiaz/.pyenv/versions/3.8.6/bin/python')
-let g:vimtex_view_method = 'skim'
 let g:rooter_silent_chdir = 1
-
-" Project management
-let g:fern#renderer = "nerdfont"
+let g:vimtex_view_method = 'skim'
+let g:vimtex_compiler_latexmk = { 'build_dir' : './bin' }
 
 " LSP
 let g:coc_global_extensions = [
       \ 'coc-snippets',
+      \ 'coc-lists',
       \ 'coc-pairs',
       \ 'coc-stylelint',
       \ 'coc-tsserver',
@@ -118,10 +107,10 @@ let g:coc_global_extensions = [
       \ 'coc-json', 
       \ 'coc-eslint',
       \ 'coc-pyright',
-      \ 'coc-vimtex'
+      \ 'coc-vimtex',
+      \ 'coc-explorer'
       \]
 
-" Functions
 function! FindFiles()
   let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
   if git_dir != ''
@@ -142,12 +131,14 @@ nnoremap <silent>gB :bprev<CR>
 tnoremap <Esc> <C-\><C-n>
 
 " Project management
-nnoremap <silent><Leader>e :Fern . -drawer -reveal=% -toggle <CR>
+nnoremap <Leader>e :CocCommand explorer --position right --sources=file+<CR>
+set mouse=a
 
 " Tools
 nnoremap <silent><C-P> :exec FindFiles()<CR>
 nnoremap <silent><Leader>m :FZFMru<CR>
 nnoremap <silent><Leader>l :Lines<CR>
+nnoremap <silent><Leader>g :CocList grep<CR>
 
 augroup Setup
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -161,9 +152,10 @@ require'colorizer'.setup()
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained",
   highlight = {
-    enable = true
+    enable = true,
   },
 }
+
 EOF
 
 " Imports

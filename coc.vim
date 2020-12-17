@@ -67,6 +67,8 @@ nnoremap <silent><nowait> <Space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <Space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <Space>p  :<C-u>CocListResume<CR>
 
+nnoremap <silent><Esc> :call coc#float#close_all()<CR>
+
 hi CocErrorVirtualText guifg=#c41111
 
 augroup CocSetup
