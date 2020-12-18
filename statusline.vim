@@ -52,3 +52,5 @@ set statusline+=%{Diagnostics().warnings?'\ ●\ ':''}%*
 
 set statusline+=%{tolower(&filetype)}
 set statusline+=\ %l:%c\ 
+
+set statusline+=%{getcwd()}

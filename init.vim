@@ -1,3 +1,5 @@
+let g:polyglot_disabled = ['tex']
+
 call plug#begin()
 " Buffer handling
 Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
@@ -15,6 +17,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-rooter'
 Plug 'aymericbeaumet/vim-symlink'
+Plug 'sheerun/vim-polyglot'
 
 " Convenience
 Plug 'luochen1990/rainbow'
@@ -22,7 +25,6 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'romainl/vim-cool'
 Plug 'valloric/MatchTagAlways'
 Plug 'AndrewRadev/tagalong.vim'
-Plug 'Yggdroot/indentLine'
 Plug 'bkad/CamelCaseMotion'
 
 " LSP
@@ -32,12 +34,7 @@ Plug 'jmsv/vscode-javascript-standard'
 " Syntax
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'ghifarit53/tokyonight-vim'
-
-" Misc
-Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'moll/vim-bbye'
 
 call plug#end()
 
@@ -79,8 +76,6 @@ let mapleader = ','
 let g:rainbow_active = 1
 
 " Convenience
-let g:indentLine_char_list = ['┊']
-let g:scrollview_winblend = 55
 let g:sneak#label = 1
 let g:mta_filetypes = {
       \ 'html' : 1,
@@ -119,7 +114,7 @@ endfunction
 
 function! s:OpenDirHere(dir)
     if isdirectory(a:dir)
-	exec "silent CocCommand explorer --current-buffer" . a:dir
+        exec 'silent CocCommand explorer --current-buffer' . a:dir
     endif
 endfunction
 
@@ -139,7 +134,7 @@ nnoremap <silent><Leader>e <Plug>CamelCaseMotion_e
 
 " Buffer management
 nnoremap <silent>gb :bnext<CR>
-nnoremap <silent>GB :bprev<CR>
+nnoremap <silent>gB :bprev<CR>
 tnoremap <Esc> <C-\><C-n>
 let g:buftabline_numbers=1
 let g:buftabline_indicators=1
@@ -158,7 +153,6 @@ nnoremap <silent><Leader>g :CocList grep<CR>
 augroup CocExplorer
   autocmd VimEnter * call <SID>DisableFileExplorer()
   autocmd BufEnter * call <SID>OpenDirHere(expand('<amatch>'))
-  autocmd FileType help,coc-explorer IndentLinesToggle
 augroup end
 
 augroup Vimtex
@@ -175,14 +169,11 @@ require'colorizer'.setup()
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained",
-  highlight = {
-    enable = true,
-  },
+  highlight = { enable = true },
+  indent = { enable = true },
 }
 
 EOF
 
-" Imports
 source ~/.config/nvim/statusline.vim
 source ~/.config/nvim/coc.vim
-
