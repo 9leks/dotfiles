@@ -1,9 +1,9 @@
 call plug#begin()
 " Buffer handling
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
 Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
-Plug 'ap/vim-buftabline'
+Plug 'ap/vim-buftabline', {'frozen': 1}
 
 " Tools
 Plug 'justinmk/vim-sneak'
@@ -30,6 +30,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jmsv/vscode-javascript-standard'
 
 " Syntax
+Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'ghifarit53/tokyonight-vim'
@@ -58,9 +59,9 @@ set formatoptions=aw2tq
 set undofile
 set fcs=eob:\ 
 
+" Syntax
 let g:tokyonight_style = 'storm'
 let g:tokyonight_enable_italic = 1
-
 colorscheme tokyonight
 hi EndOfBuffer guibg=none
 hi Normal guibg=none
@@ -111,6 +112,17 @@ let g:coc_global_extensions = [
       \ 'coc-explorer'
       \]
 
+" Functions
+function! s:DisableFileExplorer()
+    au! FileExplorer
+endfunction
+
+function! s:OpenDirHere(dir)
+    if isdirectory(a:dir)
+	exec "silent CocCommand explorer --current-buffer" . a:dir
+    endif
+endfunction
+
 function! FindFiles()
   let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
   if git_dir != ''
@@ -127,9 +139,11 @@ nnoremap <silent><Leader>e <Plug>CamelCaseMotion_e
 
 " Buffer management
 nnoremap <silent>gb :bnext<CR>
-nnoremap <silent>gB :bprev<CR>
+nnoremap <silent>GB :bprev<CR>
 tnoremap <Esc> <C-\><C-n>
-
+let g:buftabline_numbers=1
+let g:buftabline_indicators=1
+ 
 " Project management
 nnoremap <Leader>e :CocCommand explorer --position right --sources=file+<CR>
 set mouse=a
@@ -140,9 +154,19 @@ nnoremap <silent><Leader>m :FZFMru<CR>
 nnoremap <silent><Leader>l :Lines<CR>
 nnoremap <silent><Leader>g :CocList grep<CR>
 
-augroup Setup
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Autocommands
+augroup CocExplorer
+  autocmd VimEnter * call <SID>DisableFileExplorer()
+  autocmd BufEnter * call <SID>OpenDirHere(expand('<amatch>'))
+  autocmd FileType help,coc-explorer IndentLinesToggle
+augroup end
+
+augroup Vimtex
   autocmd User VimtexEventInitPost VimtexCompile
+augroup end
+
+augroup Startup
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 
 " Lua
