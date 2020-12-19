@@ -21,7 +21,6 @@ Plug 'sheerun/vim-polyglot'
 
 " Convenience
 Plug 'luochen1990/rainbow'
-Plug 'norcalli/nvim-colorizer.lua'
 Plug 'romainl/vim-cool'
 Plug 'valloric/MatchTagAlways'
 Plug 'AndrewRadev/tagalong.vim'
@@ -101,7 +100,9 @@ let g:coc_global_extensions = [
       \ 'coc-eslint',
       \ 'coc-pyright',
       \ 'coc-vimtex',
-      \ 'coc-explorer'
+      \ 'coc-explorer',
+      \ 'coc-highlight',
+      \ 'coc-styled-components'
       \]
 
 " Functions
@@ -157,8 +158,6 @@ augroup END
 
 " Lua
 lua <<EOF
-require'colorizer'.setup()
-
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained",
   highlight = { enable = true },

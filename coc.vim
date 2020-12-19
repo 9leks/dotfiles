@@ -4,6 +4,15 @@ set cmdheight=2
 set updatetime=300
 set shortmess+=c
 
+augroup CocSetup
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  autocmd FileType css,scss,typescriptreact nnoremap <buffer> <silent><Leader>f :Format<CR> <Bar> :!npx stylelint --fix %:p<CR>
+augroup end
+
+nnoremap <silent><Leader>c :call CocAction('pickColor')<CR>
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -87,10 +96,3 @@ nnoremap <silent><Leader>o :Organize<CR>
 nnoremap <silent><Esc> :call coc#float#close_all()<CR>
 
 hi CocErrorVirtualText guifg=#c41111
-
-augroup CocSetup
-  autocmd!
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  autocmd FileType css,scss nnoremap <buffer> <silent><Leader>f :Format<CR> <Bar> :!npx stylelint --fix %:p<CR>
-augroup end

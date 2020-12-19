@@ -2,7 +2,7 @@
   "suggest.noselect": false,
   "diagnostic.messageTarget": "echo",
   "diagnostic.virtualText": true,
-  "diagnostic-languageserver.filetypes": { "scss": "stylelint" },
+  "diagnostic-languageserver.filetypes": { "css": "stylelint", "typescriptreact": "stylelint" },
   "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "explorer.icon.enableNerdfont": true
 }
