@@ -25,7 +25,6 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'romainl/vim-cool'
 Plug 'valloric/MatchTagAlways'
 Plug 'AndrewRadev/tagalong.vim'
-Plug 'bkad/CamelCaseMotion'
 
 " LSP
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -34,7 +33,7 @@ Plug 'jmsv/vscode-javascript-standard'
 " Syntax
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'ghifarit53/tokyonight-vim'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
 
 call plug#end()
 
@@ -57,17 +56,15 @@ set undofile
 set fcs=eob:\ 
 
 " Syntax
-let g:tokyonight_style = 'storm'
-let g:tokyonight_enable_italic = 1
-colorscheme tokyonight
-hi EndOfBuffer guibg=none
-hi Normal guibg=none
-hi SignColumn guibg=none
-hi GitGutterAdd guibg=none
-hi GitGutterChange guibg=none
-hi GitGutterText guibg=none
-hi GitGutterDelete guibg=none
-hi ScrollView guibg=#777777
+colorscheme onehalfdark
+" hi EndOfBuffer guibg=none
+" hi Normal guibg=none
+" hi SignColumn guibg=none
+" hi GitGutterAdd guibg=none
+" hi GitGutterChange guibg=none
+" hi GitGutterText guibg=none
+" hi GitGutterDelete guibg=none
+" hi ScrollView guibg=#777777
 
 " Neovim 
 let mapleader = ','
@@ -126,11 +123,6 @@ function! FindFiles()
     execute 'Files'
   endif
 endfunction
-
-" Movement
-nnoremap <silent><Leader>w <Plug>CamelCaseMotion_w
-nnoremap <silent><Leader>b <Plug>CamelCaseMotion_b
-nnoremap <silent><Leader>e <Plug>CamelCaseMotion_e
 
 " Buffer management
 nnoremap <silent>gb :bnext<CR>
