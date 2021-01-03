@@ -1,11 +1,15 @@
 let g:polyglot_disabled = ['tex']
 
 call plug#begin()
+
 " Buffer handling
 Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
 Plug 'junegunn/fzf.vim'
-Plug 'pbogut/fzf-mru.vim'
-Plug 'ap/vim-buftabline', {'frozen': 1}
+
+if !exists('g:uivonim')
+  Plug 'mengelbrecht/lightline-bufferline'
+  Plug 'itchyny/lightline.vim'
+endif
 
 " Tools
 Plug 'justinmk/vim-sneak'
@@ -15,25 +19,35 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
+Plug 'sheerun/vim-polyglot'
+
+" Misc
 Plug 'airblade/vim-rooter'
 Plug 'aymericbeaumet/vim-symlink'
-Plug 'sheerun/vim-polyglot'
 
 " Convenience
 Plug 'luochen1990/rainbow'
 Plug 'romainl/vim-cool'
 Plug 'valloric/MatchTagAlways'
 Plug 'AndrewRadev/tagalong.vim'
+Plug 'tpope/vim-abolish'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'Spenny1068/ciBracket'
+Plug 'Yggdroot/indentLine'
+Plug 'yuttie/comfortable-motion.vim'
 
 " LSP
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jmsv/vscode-javascript-standard'
+if !exists('g:uivonim')
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'jmsv/vscode-javascript-standard'
+else
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-lua/completion-nvim'
+endif
 
 " Syntax
-Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
-
+Plug 'pineapplegiant/spaceduck'
 call plug#end()
 
 set syntax
@@ -41,6 +55,7 @@ set number relativenumber
 set expandtab
 set inccommand=split
 set smartcase
+set signcolumn=yes
 set cursorline
 set title
 set hidden
@@ -55,24 +70,47 @@ set undofile
 set fcs=eob:\ 
 
 " Syntax
-colorscheme onehalfdark
-" hi EndOfBuffer guibg=none
-" hi Normal guibg=none
-" hi SignColumn guibg=none
-" hi GitGutterAdd guibg=none
-" hi GitGutterChange guibg=none
-" hi GitGutterText guibg=none
-" hi GitGutterDelete guibg=none
-" hi ScrollView guibg=#777777
+colorscheme spaceduck
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
 
-" Neovim 
+set showtabline=2
+let g:lightline                  = {}
+let g:lightline.colorscheme      = 'spaceduck'
+let g:lightline.tabline          = {'left': [['buffers']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
+
+if !exists('g:uivonim')
+  hi EndOfBuffer guibg=none
+  hi Normal guibg=none
+  hi LineNr guibg=none
+  hi SignColumn guibg=none
+  hi DiffAdd guibg=none
+  hi DiffChange guibg=none
+  hi DiffDelete guibg=none
+  hi BufTabLineFill guibg=none
+  hi BufTabLineCurrent guibg=#222222
+  hi BufTabLineActive guibg=none
+  hi BufTabLineHidden guibg=none
+endif
+
+if exists('g:uivonim')
+  set linespace=10
+  set guifont=Roboto\ Mono\ For\ Powerline:h17
+endif
+
+" Neovim
 let mapleader = ','
 
 " Syntax
 let g:rainbow_active = 1
 
 " Convenience
-let g:sneak#label = 1
+let g:indentLine_char_list = ['│']
 let g:mta_filetypes = {
       \ 'html' : 1,
       \ 'markdown' : 1,
@@ -87,66 +125,56 @@ let g:vimtex_view_method = 'skim'
 let g:vimtex_compiler_latexmk = { 'build_dir' : './bin' }
 
 " LSP
-let g:coc_global_extensions = [
-      \ 'coc-snippets',
-      \ 'coc-lists',
-      \ 'coc-pairs',
-      \ 'coc-stylelint',
-      \ 'coc-tsserver',
-      \ 'coc-emmet',
-      \ 'coc-vimlsp', 
-      \ 'coc-prettier', 
-      \ 'coc-json', 
-      \ 'coc-eslint',
-      \ 'coc-pyright',
-      \ 'coc-vimtex',
-      \ 'coc-explorer',
-      \ 'coc-highlight',
-      \ 'coc-styled-components'
-      \]
+if !exists('g:uivonim')
+  let g:coc_global_extensions = [
+        \ 'coc-explorer',
+        \ 'coc-snippets',
+        \ 'coc-pairs',
+        \ 'coc-stylelint',
+        \ 'coc-tsserver',
+        \ 'coc-emmet',
+        \ 'coc-vimlsp', 
+        \ 'coc-prettier', 
+        \ 'coc-json', 
+        \ 'coc-eslint',
+        \ 'coc-pyright',
+        \ 'coc-vimtex',
+        \ 'coc-highlight',
+        \ 'coc-styled-components'
+        \]
+else
+  augroup Completion
+    autocmd BufEnter * lua require'completion'.on_attach()
+  augroup end
 
-" Functions
-function! s:DisableFileExplorer()
-    au! FileExplorer
-endfunction
-
-function! s:OpenDirHere(dir)
-    if isdirectory(a:dir)
-        exec 'silent CocCommand explorer --current-buffer' . a:dir
-    endif
-endfunction
-
-function! FindFiles()
-  let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-  if git_dir != ''
-    execute 'GFiles' git_dir
-  else
-    execute 'Files'
-  endif
-endfunction
+  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  set completeopt=menuone,noinsert,noselect
+  set shortmess+=c
+endif
 
 " Buffer management
-nnoremap <silent>gb :bnext<CR>
-nnoremap <silent>gB :bprev<CR>
-tnoremap <Esc> <C-\><C-n>
+nnoremap <silent><M-d> :bprev<CR>
+nnoremap <silent><M-f> :bnext<CR>
 let g:buftabline_numbers=1
 let g:buftabline_indicators=1
- 
-" Project management
-nnoremap <Leader>e :CocCommand explorer --position right --sources=file+<CR>
-set mouse=a
+tnoremap <Esc> <C-\><C-n>
 
 " Tools
-nnoremap <silent><C-P> :exec FindFiles()<CR>
-nnoremap <silent><Leader>m :FZFMru<CR>
-nnoremap <silent><Leader>l :Lines<CR>
-nnoremap <silent><Leader>g :CocList grep<CR>
-
-" Autocommands
-augroup CocExplorer
-  autocmd VimEnter * call <SID>DisableFileExplorer()
-  autocmd BufEnter * call <SID>OpenDirHere(expand('<amatch>'))
-augroup end
+if !exists('g:uivonim')
+  nnoremap <silent><C-P> :GitFiles<CR>
+  nnoremap <silent><Leader>p :Files<CR>
+  nnoremap <silent><Leader>l :Lines<CR>
+  nnoremap <silent><Leader>m :History<CR>
+  nnoremap <silent><Leader>b :Buffers<CR>
+  nnoremap <silent><Leader>g :Rg<CR>
+  nnoremap <silent><Leader>e :CocCommand explorer --position right --sources=file+<CR>
+else
+  nnoremap <silent><C-P> :Uivonim files<CR>
+  nnoremap <silent><Leader>b :Uivonim buffers<CR>
+  nnoremap <silent><Leader>g :Uivonim grep<CR>
+  nnoremap <silent><Leader>m :History<CR>
+endif
 
 augroup Vimtex
   autocmd User VimtexEventInitPost VimtexCompile
@@ -154,7 +182,12 @@ augroup end
 
 augroup Startup
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  autocmd CmdlineLeave : echo ''
 augroup END
+
+if !exists('g:uivonim')
+  source ~/.config/nvim/coc.vim
+endif
 
 " Lua
 lua <<EOF
@@ -162,9 +195,16 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained",
   highlight = { enable = true },
   indent = { enable = true },
-}
+  }
 
+  if vim.g.uivonim == 1 then
+    local lsp_callbacks = require'uivonim.lsp'.callbacks
+    local lspconfig = require'lspconfig'
+
+    lspconfig.tsserver.setup {
+    handlers = lsp_callbacks;
+    on_attach = require('completion').on_attach
+    }
+  end
 EOF
 
-source ~/.config/nvim/statusline.vim
-source ~/.config/nvim/coc.vim

@@ -1,6 +1,5 @@
 set nobackup
 set nowritebackup
-set cmdheight=2
 set updatetime=300
 set shortmess+=c
 
@@ -8,7 +7,9 @@ augroup CocSetup
   autocmd!
   autocmd CursorHold * silent call CocActionAsync('highlight')
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  autocmd FileType css,scss,typescriptreact nnoremap <buffer> <silent><Leader>f :Format<CR> <Bar> :!npx stylelint --fix %:p<CR>
+  autocmd FileType css,typescriptreact nnoremap 
+        \ <buffer> <silent><Leader>f :Format<CR> <Bar>
+        \ :!npx -q stylelint --fix %:p<CR>
 augroup end
 
 nnoremap <silent><Leader>c :call CocAction('pickColor')<CR>
