@@ -1,16 +1,14 @@
 {
   "suggest.noselect": false,
   "diagnostic.virtualText": true,
-  "diagnostic-languageserver.filetypes": { "css": "stylelint", "typescriptreact": "stylelint" },
-  "typescript.validate.enable": false,
-  "javascript.validate.enable": false,
-  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "stylelintplus.autoFixOnSave": true,
+  "stylelintplus.cssInJs": true,
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "emmet.includeLanguages": { "typescript": "typescriptreact", "javascript": "javascriptreact" },
   "git.addedSign.text": "▌",
   "git.changedSign.text": "▌",
   "git.changeRemovedSign.text": "▌",
   "git.topRemovedSign.text": "▔",
-  "git.removedSign.text": "▁",
-  "explorer.icon.enableNerdfont": true,
-  "explorer.file.root.template": "root"
+  "git.removedSign.text": "▁"
 }
