@@ -1,3 +1,4 @@
+vim.cmd [[
 set noshowmode
 set laststatus=2
 set noruler
@@ -55,3 +56,4 @@ set statusline+=\ %l:%c\
 
 set statusline+=%{getcwd()}
 
+]]

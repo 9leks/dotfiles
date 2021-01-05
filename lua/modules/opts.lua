@@ -17,5 +17,3 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = 'yes'
 
 vim.g.mapleader = ','
-
-vim.cmd('colorscheme spaceduck')

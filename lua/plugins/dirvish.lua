@@ -1,4 +1,4 @@
-vim.api.nvim_set_keymap('n', '-', ':Dirvish<CR>', {silent = true, noremap = true})
+vimp.nnoremap({'silent'}, '-', ':Dirvish<CR>')
 vim.g.dirvish_mode = [[:silent keeppatterns g@\v/\.[^\/]+/?$@d _]]
 vim.g.loaded_netrwPlugin = true
 
