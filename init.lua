@@ -1,0 +1,10 @@
+require 'options'
+require 'setup'
+require 'plugins'
+
+require '_plugins/fzf'
+require '_plugins/rooter'
+require '_plugins/dirvish'
+require '_plugins/vimtex'
+require '_plugins/coc'
+require '_plugins/coc-git'
