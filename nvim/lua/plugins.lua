@@ -1,0 +1,71 @@
+return require 'packer'.startup(function(use)
+    use 'wbthomason/packer.nvim'
+
+    -- themes
+    use 'michaeldyrynda/carbon'
+    use 'rebelot/kanagawa.nvim'
+    use { 'rose-pine/neovim', as = 'rose-pine' }
+    use { '9leks/catppuccin.nvim', as = 'catppuccin' }
+
+    -- ui
+    use 'romainl/vim-cool'
+    use 'folke/zen-mode.nvim'
+    use 'rcarriga/nvim-notify'
+    use 'RRethy/vim-hexokinase'
+    use 'echasnovski/mini.nvim'
+    use '9leks/bufferline.nvim'
+    use 'junegunn/limelight.vim'
+    use 'stevearc/dressing.nvim'
+    use 'lewis6991/gitsigns.nvim'
+    use 'lewis6991/satellite.nvim'
+    use 'akinsho/git-conflict.nvim'
+    use 'kevinhwang91/nvim-hlslens'
+    use 'lukas-reineke/indent-blankline.nvim'
+    use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
+    use { '9leks/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons' }
+    use { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', requires = 'nvim-telescope/telescope.nvim' }
+
+    -- lsp, language support
+    use 'lervag/vimtex'
+    use 'j-hui/fidget.nvim'
+    use 'folke/lua-dev.nvim'
+    use 'neovim/nvim-lspconfig'
+    use 'simrat39/rust-tools.nvim'
+    use 'rafamadriz/friendly-snippets'
+    use 'nvim-treesitter/nvim-treesitter'
+    use 'nvim-treesitter/nvim-treesitter-textobjects'
+    use { 'p00f/nvim-ts-rainbow', wants = 'nvim-treesitter' }
+    use { 'kosayoda/nvim-lightbulb', requires = 'antoinemadec/FixCursorHold.nvim' }
+    use { 'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-omni',
+            'hrsh7th/cmp-path',
+            'L3MON4D3/LuaSnip',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-nvim-lsp',
+            'saadparwaiz1/cmp_luasnip',
+        }
+    }
+
+    -- editing
+    use 'tpope/vim-repeat'
+    use 'tpope/vim-abolish'
+    use 'tpope/vim-surround'
+    use 'bkad/CamelCaseMotion'
+    use 'windwp/nvim-autopairs'
+    use 'numToStr/Comment.nvim'
+    use 'junegunn/vim-easy-align'
+    use 'bronson/vim-visual-star-search'
+    use 'michaeljsmith/vim-indent-object'
+    -- use { 'justinmk/vim-sneak', config = function() vim.g.loaded_sneak = true end }
+    use 'ggandor/leap.nvim'
+
+    -- utils
+    use '9leks/auto-session'
+    use 'notjedi/nvim-rooter.lua'
+    use 'lewis6991/impatient.nvim'
+    use 'NMAC427/guess-indent.nvim'
+
+end)
