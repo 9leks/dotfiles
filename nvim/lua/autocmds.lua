@@ -18,7 +18,7 @@ autocmd('BufWinEnter', {
         vim.b.branch = branch ~= '' and ' ' .. branch or ''
 
         if vim.bo.filetype ~= 'NvimTree' then
-            vim.opt_local.winbar = '  %f'
+            vim.opt_local.winbar = '   %f'
             vim.opt_local.statusline = '%!v:lua.require(\'statusline\').active()'
         else
             vim.opt_local.winbar = ''

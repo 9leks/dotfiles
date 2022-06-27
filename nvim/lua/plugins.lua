@@ -56,16 +56,14 @@ return require 'packer'.startup(function(use)
     use 'bkad/CamelCaseMotion'
     use 'windwp/nvim-autopairs'
     use 'numToStr/Comment.nvim'
+    use 'ggandor/lightspeed.nvim'
     use 'junegunn/vim-easy-align'
+    use 'urxvtcd/vim-indent-object'
     use 'bronson/vim-visual-star-search'
-    use 'michaeljsmith/vim-indent-object'
-    -- use { 'justinmk/vim-sneak', config = function() vim.g.loaded_sneak = true end }
-    use 'ggandor/leap.nvim'
 
     -- utils
     use '9leks/auto-session'
     use 'notjedi/nvim-rooter.lua'
     use 'lewis6991/impatient.nvim'
     use 'NMAC427/guess-indent.nvim'
-
 end)
