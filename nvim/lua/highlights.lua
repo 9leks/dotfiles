@@ -8,8 +8,8 @@ end)
 highlight('VertSplit', { link = 'WindowSeparator' })
 highlight('StatusLine', { fg = highlight('Normal').bg })
 
-highlight('TmuxWindow', { fg = 'Gray' })
-highlight('TmuxWindowNC', { link = 'NonText' })
+highlight('TmuxWindow', { fg = '#6e738c' })
+highlight('TmuxWindowNC', { fg = '#575268' })
 
 highlight('Winbar', { fg = highlight('NonText').fg })
 highlight('WinbarNC', { fg = highlight('NonText').fg, italic = true })

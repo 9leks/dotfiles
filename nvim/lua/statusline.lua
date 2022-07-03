@@ -22,12 +22,12 @@ local function filetype()
 end
 
 local function position()
-    return '%l:%c'
+    return '%l:%v'
 end
 
 -- local function tmux()
---     local active = vim.fn.system 'tmux display-message -p \'#I\'':sub(1, -2)
---     local windows = vim.fn.system 'tmux list-windows -F \'#I #W\'':sub(1, -2):split_by '\n'
+--     local active = vim.fn.system 'tmux display-message -p "#I"':sub(1, -2)
+--     local windows = vim.fn.system 'tmux list-windows -F "#I #{b:pane_current_path}"':sub(1, -2):split_by '\n'
 
 --     local result = {}
 --     for _, window in ipairs(windows) do
@@ -35,20 +35,22 @@ end
 --         table.insert(result, (index == active and '%#TmuxWindow#' or '%#TmuxWindowNC#') .. name)
 --     end
 
---     return #result > 0 and table.concat(result, ' ') or ''
+--     return #result > 0 and table.concat(result, '  ') or ''
 -- end
 
 function M.active()
     local err, warn, hint, info = diagnostics()
 
     return table.concat {
+        '%#NonText# ',
+        vim.b.branch and string.format('%s ', vim.b.branch) or '',
+        string.format('%s %s', filetype(), position()),
+        '%=%#NonText#',
         '%#DiagnosticError#', err or '',
         '%#DiagnosticWarn#', warn or '',
         '%#DiagnosticHint#', hint or '',
         '%#DiagnosticInfo#', info or '',
-        '%=%#NonText#',
-        vim.b.branch and vim.b.branch .. ' ' or '',
-        string.format('%s  %s ', position(), filetype()),
+        -- string.format('%s ', tmux()),
     }
 end
 

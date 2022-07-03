@@ -1,5 +1,6 @@
 return require 'packer'.startup(function(use)
     use 'wbthomason/packer.nvim'
+    use 'vimpostor/vim-tpipeline'
 
     -- themes
     use 'michaeldyrynda/carbon'
@@ -11,19 +12,20 @@ return require 'packer'.startup(function(use)
     use 'romainl/vim-cool'
     use 'folke/zen-mode.nvim'
     use 'rcarriga/nvim-notify'
-    use 'RRethy/vim-hexokinase'
     use 'echasnovski/mini.nvim'
-    use '9leks/bufferline.nvim'
     use 'junegunn/limelight.vim'
     use 'stevearc/dressing.nvim'
+    use 'akinsho/bufferline.nvim'
     use 'lewis6991/gitsigns.nvim'
+    use 'tversteeg/registers.nvim'
     use 'lewis6991/satellite.nvim'
     use 'akinsho/git-conflict.nvim'
     use 'kevinhwang91/nvim-hlslens'
     use 'lukas-reineke/indent-blankline.nvim'
+    use { 'RRethy/vim-hexokinase', run = 'make hexokinase' }
     use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
-    use { '9leks/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons' }
     use { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
+    use { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons' }
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', requires = 'nvim-telescope/telescope.nvim' }
 
     -- lsp, language support
@@ -33,8 +35,8 @@ return require 'packer'.startup(function(use)
     use 'neovim/nvim-lspconfig'
     use 'simrat39/rust-tools.nvim'
     use 'rafamadriz/friendly-snippets'
-    use 'nvim-treesitter/nvim-treesitter'
     use 'nvim-treesitter/nvim-treesitter-textobjects'
+    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use { 'p00f/nvim-ts-rainbow', wants = 'nvim-treesitter' }
     use { 'kosayoda/nvim-lightbulb', requires = 'antoinemadec/FixCursorHold.nvim' }
     use { 'hrsh7th/nvim-cmp',
@@ -62,6 +64,7 @@ return require 'packer'.startup(function(use)
     use 'bronson/vim-visual-star-search'
 
     -- utils
+    use 'mbbill/undotree'
     use '9leks/auto-session'
     use 'notjedi/nvim-rooter.lua'
     use 'lewis6991/impatient.nvim'

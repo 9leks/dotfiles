@@ -1,14 +1,14 @@
 local custom_highlights = {}
 
 function _G.import(package)
-    local ok, p = pcall(require, package)
+    local ok, plugin = pcall(require, package)
 
     if not ok then
         print('[error] package', package)
         return nil
     end
 
-    return p
+    return plugin
 end
 
 function _G.read_file(path, callback)

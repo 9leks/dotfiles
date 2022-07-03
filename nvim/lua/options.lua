@@ -20,5 +20,4 @@ vim.opt.splitright = true
 vim.opt.signcolumn = 'yes'
 vim.opt.termguicolors = true
 vim.opt.jumpoptions = 'stack'
-vim.opt.fillchars = { stl = ' ', stlnc = ' ', }
-
+vim.opt.fillchars = { eob = ' ', stl = ' ', stlnc = ' ', }

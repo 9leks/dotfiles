@@ -1,8 +1,8 @@
 window:
   decorations: buttonless
   padding:
-    y: 10
-    x: 20
+    y: 15
+    x: 10
   dimensions:
     columns: 130
     lines: 30
@@ -16,7 +16,7 @@ font:
     style: Bold
   italic:
     family: SpaceMono Nerd Font
-    style: Regular Italic
+    style: Italic
   bold_italic:
     family: SpaceMono Nerd Font
     style: Bold Italic
