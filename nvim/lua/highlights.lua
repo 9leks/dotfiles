@@ -6,7 +6,8 @@ highlight('WindowSeparator', function()
 end)
 
 highlight('VertSplit', { link = 'WindowSeparator' })
-highlight('StatusLine', { fg = highlight('Normal').bg })
+highlight('StatusLine', { link = 'WindowSeparator' })
+highlight('StatusLineNC', { link = 'NonText' })
 
 highlight('TmuxWindow', { fg = '#6e738c' })
 highlight('TmuxWindowNC', { fg = '#575268' })

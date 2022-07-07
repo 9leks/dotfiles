@@ -1,6 +1,5 @@
 return require 'packer'.startup(function(use)
     use 'wbthomason/packer.nvim'
-    use 'vimpostor/vim-tpipeline'
 
     -- themes
     use 'michaeldyrynda/carbon'
