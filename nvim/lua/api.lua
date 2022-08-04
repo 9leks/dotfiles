@@ -32,7 +32,7 @@ function _G.colorscheme(scheme)
         vim.o.background = 'light'
     end
 
-    vim.cmd('colorscheme ' .. color)
+    vim.cmd.colorscheme(color)
 
     for name, val_or_fn in pairs(custom_highlights) do
         highlight(name, val_or_fn)

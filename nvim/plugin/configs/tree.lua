@@ -70,7 +70,7 @@ keymap('n', '<M-e>', function() tree.toggle(true) end)
 autocmd('BufEnter', {
     pattern = 'NvimTree_*',
     callback = function()
-        vim.cmd 'stopinsert'
+        vim.cmd.stopinsert()
         highlight('NvimTreeCursorLine', { link = 'CursorLine' })
     end
 })
