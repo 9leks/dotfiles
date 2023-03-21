@@ -20,7 +20,6 @@ tree.setup {
     },
     view = {
         adaptive_size = true,
-        hide_root_folder = true,
     },
     renderer = {
         root_folder_modifier = ':t',
@@ -28,7 +27,7 @@ tree.setup {
             enable = true,
         },
         icons = {
-            padding = '  ',
+            padding = ' ',
             git_placement = 'signcolumn',
             glyphs = {
                 default = '',
@@ -41,43 +40,36 @@ tree.setup {
                     ignored = '！',
                 },
                 folder = {
-                    default = ' ',
-                    open = ' ',
-                    arrow_open = ' ',
-                    arrow_closed = ' ',
-                    empty_open = ' ',
-                    empty = ' ',
-                    symlink = ' ',
-                    symlink_open = ' ',
+                    default = ' ',
+                    open = ' ',
                 },
             }
         }
     }
 }
 
-highlight('NvimTreeNormal', { link = 'Normal' })
-highlight('NvimTreeRootFolder', { link = 'NonText' })
-highlight('NvimTreeIndentMarker', { link = 'LineNr' })
-highlight('NvimTreeWindowSeparator', { link = 'WindowSeparator' })
-highlight('NvimTreeGitNew', { link = 'GitSignsChange' })
-highlight('NvimTreeGitDirty', { link = 'GitSignsAdd' })
-highlight('NvimTreeGitStaged', { link = 'GitSignsChange' })
-highlight('NvimTreeGitDeleted', { link = 'GitSignsDelete' })
+vim.keymap.set('n', '<C-t>E', function() tree.toggle(true) end, {})
 
-keymap('n', '<M-r>', tree.toggle)
-keymap('n', '<M-e>', function() tree.toggle(true) end)
+vim.api.nvim_set_hl(0, 'NvimTreeNormal', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NvimTreeRootFolder', { link = 'NonText' })
+vim.api.nvim_set_hl(0, 'NvimTreeIndentMarker', { link = 'FloatBorder' })
 
-autocmd('BufEnter', {
+vim.api.nvim_set_hl(0, 'NvimTreeGitNew', { link = 'GitSignsChange' })
+vim.api.nvim_set_hl(0, 'NvimTreeGitDirty', { link = 'GitSignsAdd' })
+vim.api.nvim_set_hl(0, 'NvimTreeGitStaged', { link = 'GitSignsChange' })
+vim.api.nvim_set_hl(0, 'NvimTreeGitDeleted', { link = 'GitSignsDelete' })
+
+vim.api.nvim_create_autocmd('BufEnter', {
     pattern = 'NvimTree_*',
     callback = function()
-        vim.cmd.stopinsert()
-        highlight('NvimTreeCursorLine', { link = 'CursorLine' })
+        vim.cmd 'stopinsert'
+        vim.api.nvim_set_hl(0, 'NvimTreeCursorLine', { link = 'CursorLine' })
     end
 })
 
-autocmd('BufLeave', {
+vim.api.nvim_create_autocmd('BufLeave', {
     pattern = 'NvimTree_*',
     callback = function()
-        highlight('NvimTreeCursorLine', { bg = 'None' })
+        vim.api.nvim_set_hl(0, 'NvimTreeCursorLine', { bg = 'None' })
     end
 })

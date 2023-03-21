@@ -31,12 +31,16 @@ local function position()
 end
 
 function M.active()
+    if filetype() == 'Prompt' then
+        return ''
+    end
+
     local err, warn, hint, info = diagnostics()
 
     return table.concat {
         '%#NonText# ',
         vim.b.branch and string.format('%s ', vim.b.branch) or '',
-        string.format('%s %s', filetype(), position()),
+        string.format('%s %s ', filetype(), position()),
         '%#DiagnosticError#', err or '',
         '%#DiagnosticWarn#', warn or '',
         '%#DiagnosticHint#', hint or '',

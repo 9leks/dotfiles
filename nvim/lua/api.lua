@@ -76,14 +76,14 @@ end
 function string:split_by(delim)
     local from = 1
     local result = {}
-    local delim_from, delim_to = string.find(self, delim, from)
+    local delim_from, delim_to = string:find(delim, from)
 
     while delim_from do
-        table.insert(result, string.sub(self, from, delim_from - 1))
+        table.insert(result, string:sub(from, delim_from - 1))
         from = delim_to + 1
-        delim_from, delim_to = string.find(self, delim, from)
+        delim_from, delim_to = string:find(delim, from)
     end
 
-    table.insert(result, string.sub(self, from))
+    table.insert(result, string:sub(from))
     return result
 end

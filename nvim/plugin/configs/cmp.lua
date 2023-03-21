@@ -1,13 +1,13 @@
 local cmp = import 'cmp'
-local snippets = import 'luasnip'
+local luasnip = import 'luasnip'
 
-if vim.g.vscode or not cmp or not snippets then
+if vim.g.vscode or not cmp or not luasnip then
     return
 end
 
 -- disable vim's ins-completion
-keymap('i', '<C-p>', '<nop>')
-keymap('i', '<C-n>', '<nop>')
+vim.keymap.set('i', '<C-p>', '<nop>', {})
+vim.keymap.set('i', '<C-n>', '<nop>', {})
 
 local icons = {
     Text = '',
@@ -37,13 +37,17 @@ local icons = {
     TypeParameter = '',
 }
 
+local t = function(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
 cmp.setup {
     snippet = {
-        expand = function(args) snippets.lsp_expand(args.body) end,
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end
     },
-    completion = {
-        completeopt = 'menu,menuone,noinsert',
-    },
+
     window = {
         completion = {
             border = 'rounded',
@@ -56,6 +60,39 @@ cmp.setup {
             winhighlight = 'NormalFloat:Normal,FloatBorder:WindowSeparator',
         },
     },
+
+    completion = {
+        completeopt = 'menu,menuone,noinsert',
+        keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
+        keyword_length = 1,
+    },
+
+    mapping = cmp.mapping.preset.insert {
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm { select = true },
+        ['<Tab>'] = cmp.mapping.confirm { select = true },
+        ['<Leader>]'] = cmp.mapping(function(fallback)
+            if vim.fn['vsnip#available']() == 1 then
+                vim.fn.feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '')
+            else
+                fallback()
+            end
+        end,
+            { 'i', 's', }
+        ),
+        ['<Leader>['] = cmp.mapping(function(fallback)
+            if vim.fn['vsnip#jumpable'](-1) == 1 then
+                vim.fn.feedkeys(t('<Plug>(vsnip-jump-prev)'), '')
+            else
+                fallback()
+            end
+        end,
+            { 'i', 's', }
+        ),
+    },
+
     formatting = {
         fields = { 'kind', 'abbr', 'menu' },
         format = function(_, vim_item)
@@ -63,35 +100,11 @@ cmp.setup {
             return vim_item
         end,
     },
+
     sources = cmp.config.sources {
-        { name = 'omni' },
+        { name = 'vsnip' },
         { name = 'buffer' },
-        { name = 'luasnip' },
         { name = 'nvim_lsp' },
-    },
-    mapping = cmp.mapping.preset.insert {
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<CR>'] = cmp.mapping.confirm { select = true },
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.mapping.confirm({ select = true })()
-            elseif snippets.expand_or_jumpable() then
-                snippets.expand_or_jump()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }
-        ),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if snippets.jumpable(-1) then
-                snippets.jump(-1)
-            else
-                fallback()
-            end
-        end, { 'i', 's' }
-        ),
     },
 }
 
@@ -115,6 +128,5 @@ cmp.setup.cmdline(':', {
     sources = cmp.config.sources {
         { name = 'path' },
         { name = 'cmdline' },
-        { name = 'buffer' },
     }
 })
